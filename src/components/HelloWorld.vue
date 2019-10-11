@@ -1,114 +1,120 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-          target="_blank"
-          rel="noopener"
-          >eslint</a
-        >
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
-          >Community Chat</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-          >Twitter</a
-        >
-      </li>
-      <li>
-        <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a
-        >
-      </li>
-    </ul>
+  <div>
+    <easy-table :data='tableData'/>
   </div>
 </template>
-
 <script>
 export default {
-  name: "HelloWorld",
-  props: {
-    msg: String
+  data () {
+    return {
+      tableData: {
+        head: [{
+          key: 'state1',
+          value: 'state1'
+        }, {
+          key: 'state2',
+          value: 'state2'
+        }, {
+          key: 'state3',
+          value: 'state3'
+        }, {
+          key: 'state4',
+          value: 'state4'
+        }, {
+          key: 'state5',
+          value: 'state5'
+        }, {
+          key: 'buttons',
+          value: '操作',
+          children: [{
+            key: 'modifyBtn'
+          }, {
+            key: 'removeBtn'
+          }]
+        }],
+        body: [],
+        config: {
+          pageSize: 10,
+          currentPage: 1,
+          border: true,
+          total: 1,
+          cover: true,
+          radio: false,
+          select: false,
+          http: {
+            data: {},
+            callback (data) {},
+            url: ''
+          }
+        }
+      }
+    }
+  },
+  mounted () {
+    this.initData()
+  },
+  methods: {
+    initData () {
+      let data = []
+      for (let i = 0; i < 5; i++) {
+        data.push({
+          state1: '',
+          state2: '数据2',
+          state3: '数据3',
+          state4: '数据4',
+          state5: '数据5',
+          modifyBtn: '修改',
+          removeBtn: '删除',
+          bodyConfig: [{
+            type: 'button',
+            position: [{
+              key: 'modifyBtn',
+              type: 'main',
+              click (row) {
+                alert('update')
+              }
+            }, {
+              key: 'removeBtn',
+              type: 'warn',
+              click (row) {
+                alert('remove')
+              }
+            }]
+          }, {
+            type: 'hover',
+            position: ['state2']
+          }, {
+            type: 'select',
+            position: [{
+              key: 'state1',
+              data: [],
+              // 下拉选中改变
+              change (val) {
+                console.log(val)
+              },
+              // 远程搜索
+              httpSearch: false,
+              // 远程搜索实现
+              callback (val, positionObj) {
+                setTimeout(() => {
+                  positionObj.data = [{
+                    label: '111',
+                    value: '222'
+                  }, {
+                    label: '333',
+                    value: '444'
+                  }]
+                }, 1000)
+              }
+            }]
+          }]
+        })
+      }
+      this.tableData.body = data
+      this.tableData.config.total = data.length
+    }
   }
-};
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style lang="less">
 </style>

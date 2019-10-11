@@ -1,4 +1,4 @@
-# vue-elm-easytable
+# vue-table
 
 ## Project setup
 ```
