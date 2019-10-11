@@ -69,13 +69,13 @@ export default {
             type: 'button',
             position: [{
               key: 'modifyBtn',
-              type: 'main',
+              type: 'primary',
               click (row) {
                 alert('update')
               }
             }, {
               key: 'removeBtn',
-              type: 'warn',
+              type: 'danger',
               click (row) {
                 alert('remove')
               }

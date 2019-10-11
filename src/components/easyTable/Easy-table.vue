@@ -15,9 +15,7 @@
         :width="getTdWidth(item)">
         <template slot-scope="scope">
           <template v-if='item.key === "buttons"'>
-            <!-- <app-button 
-            /> -->
-            <el-button type="primary"
+            <el-button
               v-for='temp of item.children'
               :type='getBtnType(scope.row, temp)'
               :key='temp.key'
